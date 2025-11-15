@@ -1,4 +1,5 @@
 ## Travel Journal — Full-Stack Travel Record System
+**Render**: [https://travelrecord.onrender.com](https://travelrecord.onrender.com)
 A full-stack travel recording system that supports login, single trip submission, CSV/JSON bulk upload, and travel history browsing.
 Backend uses Flask + MongoDB Atlas, frontend built with React + Vite + Bootstrap.
 ### | Project Structure
@@ -29,7 +30,6 @@ TravelRecord/
 ### | Tech Stack
 ##### 1. Frontend
 - React + Vite + TypeScript
-- React Router
 - Bootstrap 5
 - Fetch API with credentials: "include"
 ##### 2. Backend
