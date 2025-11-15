@@ -11,11 +11,18 @@ import json
 import csv
 import io
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
 # --- 初始化 Flask ---
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True,          # Render 上是 HTTPS，必須 True
+    PERMANENT_SESSION_LIFETIME=timedelta(days=7),  # 可選，session 有效時間
+)
 
 # --- CORS 設定 ---
 CORS(
@@ -31,7 +38,7 @@ CORS(
     },
 )
 
-app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
+
 
 # --- MongoDB 連線設定 ---
 MONGODB_URI = os.getenv("MONGODB_URI")
