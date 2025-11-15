@@ -1,5 +1,6 @@
 import { useState } from "react"
 import type { FormEvent } from "react"
+import { API_BASE } from "../config";
 
 export default function BulkUpload() {
   const [bulkResp, setBulkResp] = useState("")
@@ -11,10 +12,10 @@ export default function BulkUpload() {
     e.preventDefault()
     const form = e.currentTarget
     const fd = new FormData(form)
-    const res = await fetch("/api/bulk", {
+    const res = await fetch(`${API_BASE}/api/bulk`, {
       method: "POST",
       body: fd,
-      credentials: "include",    // ⭐⭐ 關鍵：這樣才會帶上 Flask session cookie
+      credentials: "include",
     })
     const json = await res.json()
     setBulkResp(JSON.stringify(json, null, 2))
@@ -31,9 +32,10 @@ export default function BulkUpload() {
       alert("❌ Invalid JSON format.")
       return
     }
-    const res = await fetch("/api/bulk", {
+    const res = await fetch(`${API_BASE}/api/bulk`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(parsed)
     })
     const json = await res.json()

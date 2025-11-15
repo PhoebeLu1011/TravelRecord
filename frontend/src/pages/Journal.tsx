@@ -1,5 +1,7 @@
 import { useEffect,useState } from "react"
 import type { FormEvent } from "react"
+import { API_BASE } from "../config";
+
 
 type Trip = {
   date?: string
@@ -18,7 +20,7 @@ export default function Journal() {
   const [jsonResp, setJsonResp] = useState('')
 
   async function loadAll() {
-    const res = await fetch('/api/all')
+    const res = await fetch(`${API_BASE}/api/all`, { credentials: "include" })
     const json = await res.json()
     setData(Array.isArray(json) ? json : [])
   }
@@ -27,10 +29,11 @@ export default function Journal() {
 
   async function onSubmitSingle(e: FormEvent) {
     e.preventDefault()
-    const res = await fetch('/api/add', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(single)
+    const res = await fetch(`${API_BASE}/api/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(single),
     })
     const json = await res.json()
     setSingleResp(JSON.stringify(json, null, 2))
@@ -42,7 +45,11 @@ export default function Journal() {
     e.preventDefault()
     const form = e.currentTarget
     const fd = new FormData(form)
-    const res = await fetch('/api/bulk', { method: 'POST', body: fd })
+    const res = await fetch(`${API_BASE}/api/bulk`, {
+      method: "POST",
+      credentials: "include",
+      body: fd,
+    })
     const json = await res.json()
     setBulkResp(JSON.stringify(json, null, 2))
     ;(form.querySelector('input[type="file"]') as HTMLInputElement).value = ''
@@ -54,10 +61,11 @@ export default function Journal() {
     let parsed
     try { parsed = JSON.parse(jsonText.trim()) } 
     catch { alert('❌ Invalid JSON format.'); return }
-    const res = await fetch('/api/bulk', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(parsed)
+    const res = await fetch(`${API_BASE}/api/bulk`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(parsed),
     })
     const json = await res.json()
     setJsonResp(JSON.stringify(json, null, 2))

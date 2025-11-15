@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { API_BASE } from "../config";
 
 type Trip = { date?: string; title?: string; city?: string; country?: string; note?: string }
 
@@ -6,9 +7,7 @@ export default function Home() {
   const [data, setData] = useState<Trip[]>([])
 
   useEffect(() => {
-    fetch('/api/all', { credentials: "include" }
-      
-    )
+    fetch(`${API_BASE}/api/all`, { credentials: "include" })
       .then(res => res.json())
       .then(json => setData(Array.isArray(json) ? json : []))
   }, [])

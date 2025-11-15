@@ -21,8 +21,16 @@ app = Flask(__name__, template_folder="templates")
 CORS(
     app,
     supports_credentials=True,
-    origins=["https://travelrecord.onrender.com","http://localhost:5173"],
+    resources={
+        r"/api/*": {
+            "origins": [
+                "http://localhost:5173",
+                "https://travelrecord.onrender.com",  # 你的前端網址
+            ]
+        }
+    },
 )
+
 
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-change-me")
 

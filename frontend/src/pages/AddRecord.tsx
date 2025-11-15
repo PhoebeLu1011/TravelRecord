@@ -1,6 +1,6 @@
 import { useState } from "react"
 import type { FormEvent } from "react"
-
+import { API_BASE } from "../config";
 
 type Trip = {
   date?: string
@@ -16,7 +16,7 @@ export default function AddRecord() {
 
   async function onSubmitSingle(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const res = await fetch("/api/add", {
+    const res = await fetch(`${API_BASE}/api/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
