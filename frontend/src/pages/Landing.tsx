@@ -2,6 +2,8 @@ import { useState } from "react"
 import type { FormEvent } from "react"
 
 import { useNavigate } from "react-router-dom"
+import { API_BASE } from "../config"
+
 
 type Props = {
   user: { email: string } | null
@@ -20,8 +22,6 @@ export default function Landing({ user, setUser }: Props) {
     e.preventDefault()
     setMessage(null)
     setLoading(true)
-
-    const API_BASE = "https://travelrecord-backend.onrender.com"
 
     const url =
       mode === "login"

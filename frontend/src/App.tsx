@@ -4,6 +4,7 @@ import Landing from "./pages/Landing"
 import Home from "./pages/Home"
 import AddRecord from "./pages/AddRecord"
 import BulkUpload from "./pages/BulkUpload"
+import { API_BASE } from "./config"
 
 type User = { email: string } | null
 function ProtectedRoute({
@@ -24,7 +25,7 @@ export default function App() {
 
   // 一進入 App 就問後端現在是不是有登入
   useEffect(() => {
-    fetch("/api/me", { credentials: "include" })
+    fetch(`${API_BASE}/api/me`, { credentials: "include" })
       .then(res => {
         if (!res.ok) throw new Error("not logged in")
         return res.json()
@@ -37,7 +38,7 @@ export default function App() {
   }, [])
 
   async function handleLogout() {
-    await fetch("/api/logout", {
+    await fetch(`${API_BASE}/api/logout`, {
       method: "POST",
       credentials: "include",
     })
