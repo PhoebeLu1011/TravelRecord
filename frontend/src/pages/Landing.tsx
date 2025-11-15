@@ -21,7 +21,7 @@ export default function Landing({ user, setUser }: Props) {
     setMessage(null)
     setLoading(true)
 
-    const API_BASE = "http://localhost:5000"
+    const API_BASE = "https://travelrecord-backend.onrender.com"
 
     const url =
       mode === "login"

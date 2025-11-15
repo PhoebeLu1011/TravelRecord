@@ -21,7 +21,7 @@ app = Flask(__name__, template_folder="templates")
 CORS(
     app,
     supports_credentials=True,
-    origins=["http://localhost:5173"],
+    origins=["https://travelrecord.onrender.com","http://localhost:5173"],
 )
 
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-change-me")
