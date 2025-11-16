@@ -48,16 +48,16 @@ TravelRecord/
 - Render Web Service (backend)
 - Render Static Site (frontend)
 ### |　Important Code Description
-#### Bulk Upload API (/api/bulk)
+### Bulk Upload API (/api/bulk)
 
 The /api/bulk endpoint enables batch insertion of multiple records into MongoDB using the insert_many() function. It supports both JSON input and file uploads (CSV or JSON).
 
-1. Authentication Check
+#### 1. Authentication Check
 
 The endpoint first verifies whether the user is logged in.
 If not authenticated, it returns an error response.
 
-2. Supported Input Methods
+#### 2. Supported Input Methods
 
 The API accepts data in two formats:
 
@@ -71,7 +71,7 @@ The API accepts data in two formats:
 
 The program automatically detects which input type is being used.
 
-3. Handling JSON Input
+#### 3. Handling JSON Input
 
 If the request content type indicates JSON, the data is read with:
 
@@ -81,7 +81,7 @@ if request.content_type.startswith("application/json"):
  data = request.get_json()
 ```
 
-4. Handling File Uploads
+#### 4. Handling File Uploads
 
 If the request contains a file:
 
@@ -95,7 +95,7 @@ CSV: parsed using `csv.DictReader`
 
 JSON: loaded using `json.load(file)`
 
-5. Adding User Information
+#### 5. Adding User Information
 
 Each record is tagged with:
 
@@ -105,7 +105,7 @@ Each record is tagged with:
 
 This ensures all imported data is associated with the correct authenticated user.
 
-6. Bulk Insertion
+#### 6. Bulk Insertion
 
 Finally, all processed records are inserted into MongoDB using:
 
