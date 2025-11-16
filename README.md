@@ -61,9 +61,9 @@ If not authenticated, it returns an error response.
 
 The API accepts data in two formats:
 
-JSON array sent directly from the frontend
+(1) JSON array sent directly from the frontend
 
-Uploaded files, including:
+(2) Uploaded files, including:
 
 - CSV files
 
