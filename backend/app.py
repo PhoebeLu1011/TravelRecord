@@ -12,6 +12,7 @@ import csv
 import io
 from dotenv import load_dotenv
 from datetime import timedelta
+from bson import ObjectId
 
 load_dotenv()
 
@@ -178,7 +179,36 @@ def bulk_add():
         return jsonify({"ok": True, "inserted": len(data)})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
+# =======================
+#   Delete Data
+# =======================
 
+@app.route("/api/delete_many", methods=["POST"])
+def delete_many():
+    if "user_id" not in session:
+        return jsonify({"ok": False, "error": "Not logged in"}), 401
+
+    data = request.get_json() or {}
+    id_list = data.get("ids", [])
+
+    # 檢查有沒有收到 id
+    if not isinstance(id_list, list) or not id_list:
+        return jsonify({"ok": False, "error": "No ids provided"}), 400
+
+    try:
+        object_ids = [ObjectId(x) for x in id_list]
+    except Exception:
+        return jsonify({"ok": False, "error": "Invalid id format"}), 400
+
+    uid = session["user_id"]
+
+    # 只刪除該使用者、且 _id 在清單裡的文件
+    result = collection.delete_many({
+        "user_id": uid,
+        "_id": {"$in": object_ids}
+    })
+
+    return jsonify({"ok": True, "deleted": result.deleted_count})
 
 # =======================
 #   Query All User Data
@@ -190,7 +220,12 @@ def get_all():
         return jsonify({"ok": False, "error": "Not logged in"}), 401
 
     uid = session["user_id"]
-    data = list(collection.find({"user_id": uid}, {"_id": 0}))
+    cursor = collection.find({"user_id": uid})
+    data = []
+    for doc in cursor:
+        # ObjectId 轉成字串，方便前端傳回來做刪除
+        doc["_id"] = str(doc["_id"])
+        data.append(doc)
     return jsonify(data)
 
 
